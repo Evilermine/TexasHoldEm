@@ -1,15 +1,15 @@
-<div class='main-nav'>
-    <div class='navbar navbar-inverse'>
-        <div class='navbar-header'>
-            <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse'>
+<nav class='navbar-fixed-top navbar-inverse'>
+    <div class='container-fluid'>
+        <div>
+            <button type='button' class='navbar-toggle collapsed' data-toggle='collapse' data-target='.navbar-collapse'>
                 <span class='sr-only'>Toggle navigation</span>
                 <span class='icon-bar'></span>
                 <span class='icon-bar'></span>
                 <span class='icon-bar'></span>
             </button>
-            <a class='navbar-brand' [routerLink]="['/home']">TexasHoldEm</a>
+            <a class="navbar-brand" [routerLink]="['/home']">Texas Hold'em</a>
         </div>
-        <div class='clearfix'></div>
+
         <div class='navbar-collapse collapse'>
             <ul class='nav navbar-nav'>
                 <li [routerLinkActive]="['link-active']">
@@ -19,7 +19,7 @@
                 </li>
                 <li [routerLinkActive]="['link-active']">
                     <a [routerLink]="['/counter']">
-                        <span class='glyphicon glyphicon-education'></span> Counter
+                        <span class='glyphicon glyphicon-pencil'></span> Counter
                     </a>
                 </li>
                 <li [routerLinkActive]="['link-active']">
@@ -28,6 +28,18 @@
                     </a>
                 </li>
             </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li [routerLinkActive]="['link-active']">
+                    <a [routerLink]="['/register']">
+                        <span class="glyphicon glyphicon-user"></span> Sign up
+                    </a>
+                </li>
+                <li [routerLinkActive]="['link-active']">
+                    <a [routerLink]="['/home']">
+                        <span class="glyphicon glyphicon-log-in"></span> Sign in
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
-</div>
+</nav>

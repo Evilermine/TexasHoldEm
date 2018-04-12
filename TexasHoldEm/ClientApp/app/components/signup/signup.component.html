@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+
+    <h1>{{title}}</h1>
+    <h3>User</h3>
+    <hr />
+    <form [formGroup]="UserForm" (ngSubmit)="save()" #formDir="ngForm" novalidate>
+
+        <div class="form-group row">
+            <label class=" control-label col-md-12" for="username">username</label>
+            <div class="col-md-4">
+                <input class="form-control" type="text" formControlName="username">
+            </div>
+            <span class="text-danger" *ngIf="UserForm.hasError('required', 'username') && formDir.submitted">
+                username is required.
+            </span>
+        </div>
+        <div class="form-group row">
+            <label class="control-label col-md-12" for="wallet">wallet</label>
+            <div class="col-md-4">
+                <input class="form-control" type="text" formControlName="wallet">
+            </div>
+            <span class="text-danger" *ngIf="UserForm.hasError('required', 'wallet') && formDir.submitted">
+                wallet is required
+            </span>
+        </div>
+        <div class="form-group">
+            <button type="submit" (click)="save()" class="btn btn-primary">Save</button>
+            <button class="btn" (click)="cancel()">Cancel</button>
+        </div>
+    </form>
+</body>
+</html>
