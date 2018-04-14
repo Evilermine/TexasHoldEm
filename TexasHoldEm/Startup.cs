@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
-using TexasHoldEm.Data;
+using TexasHoldEm.Models;
 
 namespace TexasHoldEm
 {
@@ -20,7 +20,7 @@ namespace TexasHoldEm
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<UserContext>(options => options.UseSqlServer(
+            services.AddDbContext<PokerManagerContext>(options => options.UseSqlServer(
                 Configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc();
         }

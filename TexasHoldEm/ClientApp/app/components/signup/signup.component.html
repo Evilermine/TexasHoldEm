@@ -1,38 +1,46 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title></title>
-</head>
-<body>
+﻿<h1 class="text-center">{{title}}</h1>
 
-    <h1>{{title}}</h1>
-    <h3>User</h3>
-    <hr />
-    <form [formGroup]="UserForm" (ngSubmit)="save()" #formDir="ngForm" novalidate>
+<form class="form-horizontal" [formGroup]="form" (ngSubmit)="AddPlayer(player)" #formDir="ngForm" novalidate>
 
-        <div class="form-group row">
-            <label class=" control-label col-md-12" for="username">username</label>
-            <div class="col-md-4">
-                <input class="form-control" type="text" formControlName="username">
-            </div>
-            <span class="text-danger" *ngIf="UserForm.hasError('required', 'username') && formDir.submitted">
-                username is required.
-            </span>
+    <div class="form-group">
+        <div class="col-sm-4">
+            <div class="text-danger" *ngIf="form.hasError('required', 'username') && formDir.submitted"> Nom d'utilisateur requis </div>
+            <label for="username" class="control-label required">Nom d'utilisateur</label>
+            <input type="text" id="username" class="form-control" [(ngModel)]="player.username" formControlName="email" />
         </div>
-        <div class="form-group row">
-            <label class="control-label col-md-12" for="wallet">wallet</label>
-            <div class="col-md-4">
-                <input class="form-control" type="text" formControlName="wallet">
-            </div>
-            <span class="text-danger" *ngIf="UserForm.hasError('required', 'wallet') && formDir.submitted">
-                wallet is required
-            </span>
+        <div class="col-sm-4">
+            <div class="text-danger" *ngIf="form.hasError('required', 'password') && formDir.submitted"> Mot de passe requis </div>
+            <label for="password" class="control-label required">Mot de passe</label>
+            <input type="password" id="password" class="form-control" [(ngModel)]="player.password" formControlName="password">
         </div>
-        <div class="form-group">
-            <button type="submit" (click)="save()" class="btn btn-primary">Save</button>
-            <button class="btn" (click)="cancel()">Cancel</button>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <div class="text-danger" *ngIf="form.hasError('required', 'firstname') && formDir.submitted"> Pr&eacute;nom requis </div>
+            <label for="firstname" class="control-label required">pr&eacute;nom</label>
+            <input type="text" id="firstname" class="form-control" [(ngModel)]="player.firstname" formControlName="firstname" required>
         </div>
-    </form>
-</body>
-</html>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <div class="text-danger" *ngIf="form.hasError('required', 'lastname') && formDir.submitted"> Nom requis </div>
+            <label for="lastname" class="control-label required">Nom</label>
+            <input type="text" id="lastname" class="form-control" [(ngModel)]="player.lastname" formControlName="lastname">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <div class="text-danger" *ngIf="(form.hasError('required', 'email') || form.hasError('email', 'email')) && formDir.submitted"> Entrez une adresse courriel valide </div>
+            <label for="email" class="control-label required">Courriel</label>
+            <input type="text" id="email" class="form-control" [(ngModel)]="player.email" formControlName="email">
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        S'inscrire
+    </button>
+
+</form>

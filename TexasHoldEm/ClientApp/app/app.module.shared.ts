@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
-import { UserService } from './services/userservice.service';
+import { PlayerService } from './services/PlayerService.service';
 
 import { AppComponent } from './components/app/app.component';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
@@ -36,7 +36,7 @@ import { SignupComponent } from './components/signup/signup.component';
         ])
     ],
     providers: [
-        UserService,
+        PlayerService,
     ]
 })
 export class AppModuleShared {
