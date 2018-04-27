@@ -8,10 +8,10 @@ namespace TexasHoldEm.Services
 {
     public class Card : IComparable<Card>
     {
-        public enum Color { SPADE, HEART, DIAMOND, CLUB };
+        public enum Color { DIAMOND, CLUB, HEART, SPADE };
         public enum Value { TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING, ACE };
 
-        private static readonly String[] COLOR_NAME = { "SPADE", "HEART", "DIAMOND", "CLUB" };
+        private static readonly String[] COLOR_NAME = { "DIAMOND", "CLUB", "HEART", "SPADE" };
         private static readonly String[] VALUE_NAME = { "TWO", "THREE",
             "FOUR", "FIVE", "SIX",
             "SEVEN", "EIGHT", "NINE",
@@ -107,14 +107,18 @@ namespace TexasHoldEm.Services
 
         public static bool operator ==(Card c1, Card c2)
         {
-            if (object.ReferenceEquals(c1, null) || object.ReferenceEquals(c2, null))
+            if (object.ReferenceEquals(c1, null) && object.ReferenceEquals(c2, null))
+                return true;
+            else if (object.ReferenceEquals(c1, null) != object.ReferenceEquals(c2, null))
                 return false;
             return c1.value == c2.value;
         }
 
         public static bool operator !=(Card c1, Card c2)
         {
-            if (object.ReferenceEquals(c1, null) || object.ReferenceEquals(c2, null))
+            if (object.ReferenceEquals(c1, null) && object.ReferenceEquals(c2, null))
+                return false;
+            else if (object.ReferenceEquals(c1, null) != object.ReferenceEquals(c2, null))
                 return true;
             return c1.value != c2.value;
         }

@@ -30,7 +30,6 @@ namespace TexasHoldEm.Services.Rules
                     return rep;
                 }
             return null;
-
         }
         public static Card[][] DoublePair(List<Card> cards)
         {
@@ -38,7 +37,7 @@ namespace TexasHoldEm.Services.Rules
                 return null;
 
             List<Card> temp = new List<Card>(cards);
-            Card[] firstPair, secondPair;
+            Card[] firstPair, secondPair, thirdPair;
 
             if ((firstPair = Pair(temp)) == null)
                 return null;
@@ -47,6 +46,16 @@ namespace TexasHoldEm.Services.Rules
 
             if ((secondPair = Pair(temp)) == null)
                 return null;
+            temp.RemoveAt(temp.IndexOf(secondPair[0]));
+            temp.RemoveAt(temp.IndexOf(secondPair[0]));
+
+            if ((thirdPair = Pair(temp)) != null)
+            {
+                if (thirdPair[0] > secondPair[0])
+                    secondPair = thirdPair;
+                else if (thirdPair[0] > firstPair[0])
+                    firstPair = thirdPair;
+            }
 
             Card[][] rep = { firstPair, secondPair };
             return rep;
@@ -72,7 +81,7 @@ namespace TexasHoldEm.Services.Rules
 
             return null;
         }
-        public static Card[] Straight(List<Card> cards, int numberOfCards)
+        public static Card[] Straight(List<Card> cards, int nbrOfCards)
         {
             List<Card> temp = new List<Card>(cards);
             temp.Sort();
@@ -84,7 +93,7 @@ namespace TexasHoldEm.Services.Rules
                 if (straight.Last().value + 1 == temp[i].value)
                 {
                     straight.Add(temp[i]);
-                    if (straight.Count >= numberOfCards)
+                    if (straight.Count >= nbrOfCards)
                         return straight.ToArray();
                 }
                 else
@@ -161,6 +170,9 @@ namespace TexasHoldEm.Services.Rules
             else
                 flush[3] = null;
 
+            if (flush[0] == null && flush[1] == null && flush[2] == null && flush[3] == null)
+                return null;
+
             return flush;
         }
         public static Card[][] FullHouse(List<Card> cards)
@@ -221,14 +233,16 @@ namespace TexasHoldEm.Services.Rules
                     break;
 
                 Card[][] flush = Flush(new List<Card>(straight), nbrOfCards);
+                if (flush == null)
+                    return null;
+
                 for (int i = 0; i < 4; ++i)
                 {
                     if (flush[i] != null)
                         return straight.ToArray();
                 }
 
-                for (int i = 0; i < straight.Length; i++)
-                    temp.Remove(straight[i]);
+                temp.Remove(straight[0]);
             } while (temp.Count >= nbrOfCards);
 
             return null;
