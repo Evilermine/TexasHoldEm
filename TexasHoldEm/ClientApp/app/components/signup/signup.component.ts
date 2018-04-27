@@ -3,6 +3,7 @@ import 'rxjs/add/operator/catch';
 import { Observable } from 'rxjs/Observable';
 import { PlayerService, Player } from '../../services/PlayerService.service';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import * as crypto from 'crypto-js';
 
 @Component({
     selector: 'sign-up',
@@ -38,6 +39,8 @@ export class SignupComponent implements OnInit {
     }
 
     public AddPlayer(item: Player) {
-        let todoId = this.playerService.AddPlayer(item);
+       
+       item.password = crypto.enc.Base64.stringify(crypto.SHA512(item.password));
+       let todoId = this.playerService.AddPlayer(item);
     }
 }

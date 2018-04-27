@@ -3,6 +3,8 @@ import { Http, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import sha256, { Hash, HMAC } from 'fast-sha256';
+
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 
