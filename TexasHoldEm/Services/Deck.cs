@@ -11,12 +11,14 @@ namespace TexasHoldEm.Services
     {
         List<Card> deck;
         Stack<Card> discard;
+        public bool isAceBest { get; }
         private static readonly RNGCryptoServiceProvider random = new RNGCryptoServiceProvider();
 
         public Deck()
         {
             deck = new List<Card>();
             discard = new Stack<Card>();
+            this.isAceBest = isAceBest;
 
             for (int i = 0; i < 4; ++i)
                 for (int j = 0; j < 13; ++j)
@@ -27,7 +29,7 @@ namespace TexasHoldEm.Services
         {
             byte[] bytes = new byte[4];
             int value;
-            for (int i = 0; i < deck.Count-1; ++i)
+            for (int i = 0; i < deck.Count - 1; ++i)
             {
                 random.GetBytes(bytes);
                 value = Math.Abs(BitConverter.ToInt32(bytes, 0) % deck.Count);
@@ -42,12 +44,14 @@ namespace TexasHoldEm.Services
 
         public Card Distribute()
         {
-            discard.Push(deck[0]);
-            deck.RemoveAt(0);
+
             if ((discard.Count + deck.Count) != 52)
                 throw new DeckSizeException(discard.Count + deck.Count);
             if (deck.Count <= 0)
                 throw new DeckSizeException(deck.Count);
+
+            discard.Push(deck[0]);
+            deck.RemoveAt(0);
             return discard.Peek();
         }
 
