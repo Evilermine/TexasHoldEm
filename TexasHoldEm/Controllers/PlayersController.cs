@@ -114,6 +114,31 @@ namespace TexasHoldEm.Controllers
 
             return CreatedAtAction("GetPlayers", new { id = players.Username }, players);
         }
+        
+        [HttpPost("{id}")]
+        [Route("~/api/login")]
+        public async Task<IActionResult> login([FromBody]TokenRequestViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            try
+            {
+               Players p = await _context.Players.SingleOrDefaultAsync(m => m.Username == model.username);
+
+                if (p == null)
+                    return NotFound(p);
+
+                //if (p.Password != model.password)
+                //    return new UnauthorizedResult();
+
+                return new OkResult();
+            }
+            catch (Exception ex)
+            {
+                return new UnauthorizedResult();
+            }
+        }
 
         // DELETE: api/Players/5
         [HttpDelete("{id}")]

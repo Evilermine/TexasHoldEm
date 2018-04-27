@@ -1,14 +1,15 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace TexasHoldEm.Models
 {
     public partial class PokerManagerContext : DbContext
     {
-        public virtual DbSet<Players> Players { get; set; }
-
         public PokerManagerContext(DbContextOptions<PokerManagerContext> options): base(options) { }
+
+        public virtual DbSet<Players> Players { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

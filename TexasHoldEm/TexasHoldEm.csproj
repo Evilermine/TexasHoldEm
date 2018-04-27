@@ -25,12 +25,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\app\components\signin\signin.component.html" />
+    <None Remove="ClientApp\app\components\signin\signin.component.ts" />
     <None Remove="ClientApp\app\components\signup\signup.component.ts" />
+    <None Remove="ClientApp\app\services\auth.service.ts" />
     <None Remove="ClientApp\app\userservice.service.ts" />
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\app\components\signin\signin.component.html" />
+    <TypeScriptCompile Include="ClientApp\app\components\signin\signin.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\signup\signup.component.ts" />
+    <TypeScriptCompile Include="ClientApp\app\services\auth.service.ts" />
     <TypeScriptCompile Include="ClientApp\app\services\PlayerService.service.ts" />
   </ItemGroup>
 
