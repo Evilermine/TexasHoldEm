@@ -3,9 +3,9 @@
 namespace TexasHoldEm.Models
 {
     [JsonObject(MemberSerialization.OptOut)]
-    public class TokenRequestViewModel
+    public class UserCredentialsViewModel
     {
-        public TokenRequestViewModel() { }
+        public UserCredentialsViewModel() { }
         public string username { get; set; }
         public string password { get; set; }
     }

@@ -15,23 +15,23 @@ namespace TexasHoldEm.Controllers
     {
         private Table table;
         private readonly PokerManagerContext _context;
-        private PlayersController pController;
 
         public TableController(PokerManagerContext context)
         {
             this._context = context;
         }
 
-        [HttpGet("{id}, name=id")]
-        [Route("~/api/GetCard")]
-        public IActionResult GetCard([FromRoute] string id)
+        [HttpGet("{username}")]
+        [Route("~/api/GetCard/{username}")]
+        public IActionResult GetCard([FromRoute(Name ="username")] string username)
         {
+            table = new Table(username);
                 String[] cards = new String[2];
                 table.DistributeToPlayer(2);
-                cards = table.GetCardsByPlayer(id);
+                cards = table.GetCardsByPlayer(username);
 
-            return Content("test");
-                //return Ok(cards);
+            //return Content("test");
+                return Ok(cards);
         }
 
         [HttpPost("{id}")]

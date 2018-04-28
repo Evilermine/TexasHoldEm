@@ -1,6 +1,6 @@
 ﻿import { Injectable} from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -61,12 +61,12 @@ export class PlayerService {
             username: "EvilErmine"
         };
 
-        var headers = new Headers();
+        var headers = new HttpHeaders();
         headers.append('Content-Type', 'application/json; charset=utf-8');
 
-        let params = new HttpParams().set('id', 'EvilErmine');
+        let params = new HttpParams().set("username", "EvilErmine");
 
-        this.http.get<string[]>(this.baseUrl + 'GetCard', { params: params })
+        this.http.get<string[]>(this.baseUrl + 'GetCard/EvilErmine', { headers: headers, params: params })
             .subscribe(data => this.cards = data);
 
         console.log(this.cards);

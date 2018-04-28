@@ -40,7 +40,7 @@ export class SignupComponent implements OnInit {
 
     public AddPlayer(item: Player) {
        
-       item.password = crypto.enc.Base64.stringify(crypto.SHA512(item.password));
+      // item.password = crypto.enc.Base64.stringify(crypto.SHA512(item.password));
        let todoId = this.playerService.AddPlayer(item);
     }
 }

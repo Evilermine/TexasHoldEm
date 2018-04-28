@@ -120,7 +120,7 @@ namespace TexasHoldEm.Controllers
         
         [HttpPost]
         [Route("~/api/login")]
-        public IActionResult login([FromBody]TokenRequestViewModel model)
+        public IActionResult login([FromBody] UserCredentialsViewModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
