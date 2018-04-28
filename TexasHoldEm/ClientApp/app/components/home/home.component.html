@@ -1,3 +1,54 @@
 <h1>Texas HoldEm Poker Online</h1>
+<nav class='navbar-expand-md navbar-fixed-bottom navbar-inverse'>
+    <div class='container-fluid'>
+        <div>
+            <button type='button' class='navbar-toggle collapsed' data-toggle='collapse' data-target='.navbar-collapse'>
+                <span class='sr-only'>Toggle navigation</span>
+                <span class='icon-bar'></span>
+                <span class='icon-bar'></span>
+                <span class='icon-bar'></span>
+            </button>
+            <div class="navbar-brand">Actions</div>
+        </div>
+
+        <div class='navbar-collapse collapse'>
+            <ul class='nav navbar-nav'>
+                <li>
+                    <button class="btn">
+                        <span class='glyphicon'></span> Check
+                    </button>
+                </li>
+                <li>
+                    <button type="submit" class="btn" (click)="onBid()">
+                        <span class='glyphicon glyphicon-arrow-up'></span> Bid
+                    </button>
+
+                    <button class="btn" (click)="incrementBid()">
+                        <span class="glyphicon glyphicon-plus-sign"></span>
+                    </button>
+
+                    <input id="bid" type="number" class="form-inline" [(ngModel)]="bid"/>
+
+                     <button class="btn" (click)="decrementBid()">
+                        <span class="glyphicon glyphicon-minus-sign"></span>
+                    </button>
+                   
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <button class="btn">
+                        <span class="glyphicon glyphicon-hand-down"></span> Fold
+                    </button>
+                </li>
+                <li>
+                    <button class="btn">
+                        <span class="glyphicon"><img src="../../../assets/all-in.png" height="50" /></span> All in
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
 <img src="../../../assets/texas_holdem_layout.png"/>

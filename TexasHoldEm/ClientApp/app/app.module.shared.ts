@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { PlayerService } from './services/PlayerService.service';
 import { AuthService } from './services/auth.service';
+import { GameService } from './services/game.service'
 
 import { AppComponent } from './components/app/app.component';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
@@ -40,7 +41,8 @@ import { SignInComponent } from './components/signin/signin.component';
     ],
     providers: [
         PlayerService,
-        AuthService
+        AuthService,
+        GameService
     ]
 })
 export class AppModuleShared {

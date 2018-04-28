@@ -6,14 +6,15 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TexasHoldEm.Models;
+using TexasHoldEm.ViewModels;
 
 namespace TexasHoldEm.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Players")]
+    [Route("~/api/Players")]
     public class PlayersController : Controller
     {
-        private readonly PokerManagerContext _context;
+        private PokerManagerContext _context;
 
         public PlayersController(PokerManagerContext context)
         {
@@ -64,10 +65,12 @@ namespace TexasHoldEm.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(players).State = EntityState.Modified;
-
+          
             try
             {
+                players.Wallet = 12000;
+                _context.Players.Attach(players);
+                _context.Entry(players).Property(p => p.Wallet).IsModified = true;
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
@@ -115,24 +118,24 @@ namespace TexasHoldEm.Controllers
             return CreatedAtAction("GetPlayers", new { id = players.Username }, players);
         }
         
-        [HttpPost("{id}")]
+        [HttpPost]
         [Route("~/api/login")]
-        public async Task<IActionResult> login([FromBody]TokenRequestViewModel model)
+        public IActionResult login([FromBody]TokenRequestViewModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             try
             {
-               Players p = await _context.Players.SingleOrDefaultAsync(m => m.Username == model.username);
+               Players p = _context.Players.SingleOrDefault(m => m.Username == model.username);
 
                 if (p == null)
                     return NotFound(p);
 
-                //if (p.Password != model.password)
-                //    return new UnauthorizedResult();
+                if (p.Password != model.password)
+                    return new UnauthorizedResult();
 
-                return new OkResult();
+                return Ok(p);
             }
             catch (Exception ex)
             {
@@ -165,6 +168,23 @@ namespace TexasHoldEm.Controllers
         private bool PlayersExists(string id)
         {
             return _context.Players.Any(e => e.Username == id);
+        }
+        
+        [HttpPost]
+        [Route("~/api/BidPlayer")]
+        public IActionResult BidPlayer([FromBody]ActionViewModel action)
+        {
+            if (!PlayersExists(action.user))
+                return new NotFoundObjectResult(action.user);
+
+            Players player = _context.Players.SingleOrDefault(m => m.Username == action.user);
+            player.Wallet = player.Wallet - action.action;
+
+            _context.Attach(player);
+            _context.Entry(player).Property(p => p.Wallet);
+            _context.SaveChangesAsync();
+
+            return new OkResult();
         }
     }
 }

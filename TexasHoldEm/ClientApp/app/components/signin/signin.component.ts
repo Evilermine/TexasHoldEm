@@ -31,30 +31,8 @@ export class SignInComponent implements OnInit {
     }
 
     onSubmit() {
-
-
         console.log(this.username);
-
-        this.authService.login(this.username, this.password)
-            .subscribe(res => {
-                // login successful
-                // outputs the login info through a JS alert.
-                // IMPORTANT: remove this when test is done.
-                alert("Login successful! "
-                    + "USERNAME: "
-                    + this.username
-                    + " TOKEN: "
-                    + this.authService.getAuth()!.token
-                );
-                this.router.navigate(["home"]);
-            },
-            err => {
-                // login failed
-                console.log(err)
-                this.form.setErrors({
-                    "auth": "Incorrect username or password"
-                });
-            });
+        this.authService.login(this.username, this.password);
     }
 }
 

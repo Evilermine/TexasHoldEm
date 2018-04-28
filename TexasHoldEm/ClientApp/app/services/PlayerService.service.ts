@@ -41,7 +41,8 @@ export class PlayerService {
         console.log("adding: " + JSON.stringify(player));
 
         this._http.post(this.baseUrl + 'InsertPlayer/', JSON.stringify(player), { headers: headers })
-            .map(response => response.json()).subscribe(data => {
+            .map(response => response.json())
+            .subscribe(data => {
                 this.dataStore.PlayerList.push(data);
                 this._PlayerList.next(Object.assign({}, this.dataStore).PlayerList);
             }, error => console.log("could not create todo"));

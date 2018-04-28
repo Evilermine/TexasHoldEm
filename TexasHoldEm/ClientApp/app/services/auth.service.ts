@@ -1,23 +1,29 @@
 ﻿import { EventEmitter, Inject, Injectable, PLATFORM_ID } from "@angular/core";
 import { isPlatformBrowser } from '@angular/common';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Response, Headers, Http } from '@angular/http';
 import { Observable } from "rxjs";
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Player } from './PlayerService.service'
 import * as crypto from 'crypto-js';
 import 'rxjs/Rx';
 
 @Injectable()
 export class AuthService {
-    authKey: string;
-    playerId: string;
+    IsLoggedIn: boolean
+    private currentUser: BehaviorSubject<Player>;
+    private datastore: {
+        currentUser: Player;
+    };
 
-    constructor(private http: HttpClient,
+    constructor(private http: Http,
         @Inject(PLATFORM_ID) private platformId: any) {
+        this.IsLoggedIn = false;
 
     }
 
-    login(username: string, password: string): Observable<boolean> {
+    login(username: string, password: string){
 
-        var url = "api/login";
+        var url = '/api/login';
         password = crypto.enc.Base64.stringify(crypto.SHA512(password));
 
         var data = {
@@ -25,66 +31,47 @@ export class AuthService {
             password: password
         };
 
-        return this.http.post<TokenResponse>(url, data)
-            .map((res) => {
+        var headers = new Headers();
 
-                let token = res && res.token;
+        headers.append('Content-Type', 'application/json; charset=utf-8');
+
+        this.http.post(url, data, { headers: headers })
+            .map((res: Response) => res.json())
+            .subscribe(data => {
+                this.datastore.currentUser = data;
+                this.currentUser.next(Object.assign({}, this.datastore).currentUser);
+            }, error => console.log("wrong username or password"));
+
+
+                console.log("Current user: " + this.currentUser);
                 // if the token is there, login has been successful
-                if (token) {
+                if (this.currentUser != null) {
                     // store username and jwt token
-                    this.setAuth(res);
+                    this.IsLoggedIn = true;
                     // successful login
-                    return true;
+                
                 }
-                // failed login
-                return Observable.throw('Unauthorized');
-            })
-            .catch(error => {
-                return new Observable<any>(error);
-            })
     }
 
-    logout(): boolean {
-        this.setAuth(null);
-        return true;
+    logout() {
+        this.IsLoggedIn = false;
     }
-
-    setAuth(auth: TokenResponse | null): boolean {
-        if (isPlatformBrowser(this.platformId)) {
-            if (auth) {
-                localStorage.setItem(
-                    this.authKey,
-                    JSON.stringify(auth));
-            }
-            else {
-                localStorage.removeItem(this.authKey);
-            }
-        }
-        return true;
-    }
-
-    getAuth(): TokenResponse | null {
-        if (isPlatformBrowser(this.platformId)) {
-            var i = localStorage.getItem(this.authKey);
-            if (i) {
-                return JSON.parse(i);
-            }
-        }
-        return null;
-    }
-
-    isLoggedIn(): boolean {
-        if (isPlatformBrowser(this.platformId)) {
-            return localStorage.getItem(this.authKey) != null;
-        }
-        return false;
-    }
-
     
-}
+    isLoggedIn(): boolean {
+        return this.IsLoggedIn;
+    }   
 
-    interface TokenResponse {
-        token: string,
-        expiration: number,
-        refresh_token: string
+    getCurrentUser(): Player {
+        return this.datastore.currentUser;
     }
+
+    onBid(data: any) {
+        var headers = new Headers();
+
+        headers.append('Content-Type', 'application/json; charset=utf-8');
+
+
+        this.http.put("api/EditPlayer", data, { headers: headers })
+            .map((res: Response) => res.json())
+    }
+}
