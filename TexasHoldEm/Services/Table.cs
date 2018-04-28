@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TexasHoldEm.Exceptions;
 using TexasHoldEm.Models;
+using TexasHoldEm.Services.Rules;
 
 namespace TexasHoldEm.Services
 {
@@ -156,6 +157,50 @@ namespace TexasHoldEm.Services
             if (river.Count >= NBR_CARDS_IN_RIVER)
                 throw new RiverSizeException(river.Count);
             river.Add(c);
+        }
+        public String[] GetCardsByPlayer(String username)
+        {
+            Card[] cards = null;
+            foreach(Seat seat in seats)
+            {
+                if(String.Compare(username, seat.GetPlayerName(), true) == 0)
+                {
+                    cards = seat.DisplayCard();
+                }
+            }
+            if (cards == null)
+                return null;
+
+            String[] cardsName = new String[2];
+
+            if (cards.Length != 2)
+                return null;
+
+            for (int i = 0; i < cards.Length; ++i)
+                cardsName[i] = ParseCardByCard(cards[i]);
+
+            return cardsName;
+        }
+        public String ParseCardByCard(Card c)
+        {
+            char[] value;
+            char color;
+
+            if (c.value == Card.Value.ACE)
+                value = "14".ToArray();
+            else
+                value = ((int)c.value + 2).ToString().ToArray();
+
+            String name = c.name;
+            String[] cut_name = name.Split();
+
+            color = cut_name[2][0];
+            color = Char.ToLower(color);
+
+            String finalName = color.ToString();
+            finalName += (new String(value) + ".png");
+
+            return finalName;
         }
     }
 }

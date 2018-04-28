@@ -20,6 +20,10 @@ export class HomeComponent {
         this.gameService.onBid(this.bid);
     }
 
+    getCards() {
+        this.gameService.getCards();
+    }
+
     incrementBid() {
         this.bid += 20;
     }

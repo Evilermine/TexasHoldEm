@@ -1,5 +1,6 @@
 ﻿import { Injectable} from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -16,8 +17,9 @@ export class PlayerService {
     private dataStore: {
         PlayerList: Player[];
     };
+    private cards: string[];
 
-    constructor(private _http: Http) {
+    constructor(private _http: Http, private http: HttpClient) {
         this.baseUrl = '/api/';
         this.dataStore = { PlayerList: [] };
         this._PlayerList = <BehaviorSubject<Player[]>> new BehaviorSubject([]);
@@ -51,6 +53,23 @@ export class PlayerService {
     errorHandler(error: Response) {
         console.log(error);
         return Observable.throw(error);
+    }
+
+    setCards() {
+
+        var user = {
+            username: "EvilErmine"
+        };
+
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/json; charset=utf-8');
+
+        let params = new HttpParams().set('id', 'EvilErmine');
+
+        this.http.get<string[]>(this.baseUrl + 'GetCard', { params: params })
+            .subscribe(data => this.cards = data);
+
+        console.log(this.cards);
     }
 }
 
