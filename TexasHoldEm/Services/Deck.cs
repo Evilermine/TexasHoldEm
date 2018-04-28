@@ -11,14 +11,12 @@ namespace TexasHoldEm.Services
     {
         List<Card> deck;
         Stack<Card> discard;
-        public bool isAceBest { get; }
         private static readonly RNGCryptoServiceProvider random = new RNGCryptoServiceProvider();
 
         public Deck()
         {
             deck = new List<Card>();
             discard = new Stack<Card>();
-            this.isAceBest = isAceBest;
 
             for (int i = 0; i < 4; ++i)
                 for (int j = 0; j < 13; ++j)
