@@ -17,15 +17,18 @@ export class AuthService {
     private datastore: {
         currentUser: Player;
     };
-    private user: any;
+    public user: any;
 
     constructor(private http: HttpClient,
         @Inject(PLATFORM_ID) private platformId: any) {
         this.IsLoggedIn = false;
-
+        this.datastore = { currentUser: new Player() };
+        this._currentUser = <BehaviorSubject<Player>>new BehaviorSubject(new Player());
+        this.currentUser = this._currentUser.asObservable();
+        this.user = "asdfasdfasdf";
     }
 
-    login(username: string, password: string){
+    async login(username: string, password: string){
 
         var url = '/api/login';
        // password = crypto.enc.Base64.stringify(crypto.SHA512(password));
@@ -38,14 +41,16 @@ export class AuthService {
         var headers = new HttpHeaders();
         headers.append('Content-Type', 'application/json; charset=utf-8');
 
-        this.http.post<Player>(url, data, { headers: headers })
-            .subscribe(test => {
-                this.user = JSON.stringify(test);
+        let current: any;
+
+        let response = await this.http.post<Player>(url, data, { headers: headers })
+            .subscribe(p => {
+                this.datastore.currentUser = p;
                 this._currentUser.next(Object.assign({}, this.datastore).currentUser);
+                console.log("test*:" + this.datastore.currentUser.username);
             }, error => console.log("wrong username or password"));
 
-
-                console.log("Current user: " + this.user);
+        console.log("Current user: " + this._currentUser.getValue().email);
                 // if the token is there, login has been successful
                 if (this.currentUser != null) {
                     // store username and jwt token
@@ -64,7 +69,7 @@ export class AuthService {
     }   
 
     getCurrentUser(): Player {
-        return this.datastore.currentUser;
+        return this._currentUser.getValue();
     }
 
     onBid(data: any) {

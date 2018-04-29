@@ -19,7 +19,7 @@ export class PlayerService {
     };
     private cards: string[];
 
-    constructor(private _http: Http, private http: HttpClient) {
+    constructor( private http: HttpClient) {
         this.baseUrl = '/api/';
         this.dataStore = { PlayerList: [] };
         this._PlayerList = <BehaviorSubject<Player[]>> new BehaviorSubject([]);
@@ -27,7 +27,7 @@ export class PlayerService {
     }
 
     FetchAllPlayers() {
-        this._http.get(this.baseUrl + 'GetAllPlayers')
+        this.http.get(this.baseUrl + 'GetAllPlayers')
             .map((response: Response) => response.json())
             .subscribe(data => {
                 this.dataStore.PlayerList = data;
@@ -37,16 +37,15 @@ export class PlayerService {
 
     public AddPlayer(player: Player) {
         console.log("Adding new Player to database");
-        var headers = new Headers();
+        var headers = new HttpHeaders();
 
         headers.append('Content-Type', 'application/json; charset=utf-8');
-        console.log("adding: " + JSON.stringify(player));
+        console.log("adding: " + player);
 
-        this._http.post(this.baseUrl + 'InsertPlayer/', JSON.stringify(player), { headers: headers })
-            .map(response => response.json())
-            .subscribe(data => {
+        this.http.post(this.baseUrl + 'InsertPlayer/', player, { headers: headers })
+            .subscribe((data: Player) => {
                 this.dataStore.PlayerList.push(data);
-                this._PlayerList.next(Object.assign({}, this.dataStore).PlayerList);
+                this._PlayerList.next(Object.assign(Player, this.dataStore).PlayerList);
             }, error => console.log("could not create todo"));
     }
 
@@ -70,6 +69,10 @@ export class PlayerService {
             .subscribe(data => this.cards = data);
 
         console.log(this.cards);
+    }
+
+    getCards(): string[] {
+        return this.cards;
     }
 }
 

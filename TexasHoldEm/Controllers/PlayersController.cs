@@ -135,7 +135,7 @@ namespace TexasHoldEm.Controllers
                 if (p.Password != model.password)
                     return new UnauthorizedResult();
 
-                return Ok(p);
+                return Json(p);
             }
             catch (Exception ex)
             {

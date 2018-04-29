@@ -18,7 +18,7 @@ namespace TexasHoldEm.Controllers
 
         public TableController(PokerManagerContext context)
         {
-            this._context = context;
+            _context = context;
         }
 
         [HttpGet("{username}")]
@@ -29,22 +29,39 @@ namespace TexasHoldEm.Controllers
                 String[] cards = new String[2];
                 table.DistributeToPlayer(2);
                 cards = table.GetCardsByPlayer(username);
-
-            //return Content("test");
                 return Ok(cards);
         }
 
-        [HttpPost("{id}")]
+        [HttpPost]
         [Route("~/api/action")]
         public IActionResult onAction([FromBody] ActionViewModel action)
         {
             if(action.action > 0)
             {
+                table.onBid(action.action);
+                table.nextTurn();
+                return new OkResult();
             }
-            else if(action.action == 0)
+            if (action.action == 0)
             {
+                table.nextTurn();
+                return new OkResult();
             }
-            return new NotFoundResult();
+            if(action.action == -1)
+            {
+                table.onPlayerFold();
+                table.nextTurn();
+                return new OkResult();
+            }
+
+            return Content("Unknown client error");
+        }
+
+        [HttpGet]
+        [Route("~/api/getPlayerTurn")]
+        public IActionResult getPlayerTurn()
+        {
+            return Ok(table.getCurrentPlayerTurn());
         }
 
         [HttpPost]
@@ -88,6 +105,17 @@ namespace TexasHoldEm.Controllers
             table.Discard(1);
 
             return Ok(cards);
+        }
+
+        [HttpGet]
+        [Route("~/api/addToRiver")]
+        public IActionResult addToRiver()
+        {
+            List<Card> card;
+            card = table.DistributeRiver(1);
+            table.Discard(1);
+
+            return Ok(card);
         }
 
         [HttpGet]

@@ -16,7 +16,30 @@ namespace TexasHoldEm.Services
         private const int NBR_CARDS_PER_HAND = 2;
         private const int NBR_SEATS = 4;
         private const int NBR_CARDS_IN_RIVER = 5;
+        private int pot = 0;
+        private int currentPlayerTurn = 0;
 
+
+        public void onPlayerFold()
+        {
+            seats[currentPlayerTurn].Fold();
+        }
+        public String nextTurn()
+        {
+            do {
+                    if (currentPlayerTurn < 3)
+                    {
+                        currentPlayerTurn += 1;
+                        return seats[currentPlayerTurn].GetPlayerName();
+                    }
+                    if (currentPlayerTurn == 3)
+                    {
+                        currentPlayerTurn = 0;
+                        return seats[currentPlayerTurn].GetPlayerName();
+                    }
+                    return null;
+            } while (seats[currentPlayerTurn].isFolded);
+        }
         public Table(String playerUsername)
         {
             deck = new Deck();
@@ -201,6 +224,18 @@ namespace TexasHoldEm.Services
             finalName += (new String(value) + ".png");
 
             return finalName;
+        }
+        public int getPot()
+        {
+            return pot;
+        }
+        public void onBid(int bid)
+        {
+            pot += bid;
+        }
+        public int getCurrentPlayerTurn()
+        {
+            return currentPlayerTurn;
         }
     }
 }
