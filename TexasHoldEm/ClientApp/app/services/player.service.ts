@@ -35,44 +35,9 @@ export class PlayerService {
             }, error => console.log('could not load Player'));
     }
 
-    public AddPlayer(player: Player) {
-        console.log("Adding new Player to database");
-        var headers = new HttpHeaders();
-
-        headers.append('Content-Type', 'application/json; charset=utf-8');
-        console.log("adding: " + player);
-
-        this.http.post(this.baseUrl + 'InsertPlayer/', player, { headers: headers })
-            .subscribe((data: Player) => {
-                this.dataStore.PlayerList.push(data);
-                this._PlayerList.next(Object.assign(Player, this.dataStore).PlayerList);
-            }, error => console.log("could not create todo"));
-    }
-
     errorHandler(error: Response) {
         console.log(error);
         return Observable.throw(error);
-    }
-
-    setCards() {
-
-        var user = {
-            username: "EvilErmine"
-        };
-
-        var headers = new HttpHeaders();
-        headers.append('Content-Type', 'application/json; charset=utf-8');
-
-        let params = new HttpParams().set("username", "EvilErmine");
-
-        this.http.get<string[]>(this.baseUrl + 'GetCard/EvilErmine', { headers: headers, params: params })
-            .subscribe(data => this.cards = data);
-
-        console.log(this.cards);
-    }
-
-    getCards(): string[] {
-        return this.cards;
     }
 }
 

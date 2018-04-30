@@ -39,12 +39,68 @@
     <TypeScriptCompile Include="ClientApp\app\components\signup\signup.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\services\auth.service.ts" />
     <TypeScriptCompile Include="ClientApp\app\services\game.service.ts" />
-    <TypeScriptCompile Include="ClientApp\app\services\PlayerService.service.ts" />
+    <TypeScriptCompile Include="ClientApp\app\services\player.service.ts" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ClientApp\assets\cards\" />
     <Folder Include="Data\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\assets\icons\all-in.png" />
+    <None Include="wwwroot\assets\cards\c1.png" />
+    <None Include="wwwroot\assets\cards\c10.png" />
+    <None Include="wwwroot\assets\cards\c11.png" />
+    <None Include="wwwroot\assets\cards\c12.png" />
+    <None Include="wwwroot\assets\cards\c13.png" />
+    <None Include="wwwroot\assets\cards\c2.png" />
+    <None Include="wwwroot\assets\cards\c3.png" />
+    <None Include="wwwroot\assets\cards\c4.png" />
+    <None Include="wwwroot\assets\cards\c5.png" />
+    <None Include="wwwroot\assets\cards\c6.png" />
+    <None Include="wwwroot\assets\cards\c7.png" />
+    <None Include="wwwroot\assets\cards\c8.png" />
+    <None Include="wwwroot\assets\cards\c9.png" />
+    <None Include="wwwroot\assets\cards\d1.png" />
+    <None Include="wwwroot\assets\cards\d10.png" />
+    <None Include="wwwroot\assets\cards\d11.png" />
+    <None Include="wwwroot\assets\cards\d12.png" />
+    <None Include="wwwroot\assets\cards\d13.png" />
+    <None Include="wwwroot\assets\cards\d2.png" />
+    <None Include="wwwroot\assets\cards\d3.png" />
+    <None Include="wwwroot\assets\cards\d4.png" />
+    <None Include="wwwroot\assets\cards\d5.png" />
+    <None Include="wwwroot\assets\cards\d6.png" />
+    <None Include="wwwroot\assets\cards\d7.png" />
+    <None Include="wwwroot\assets\cards\d8.png" />
+    <None Include="wwwroot\assets\cards\d9.png" />
+    <None Include="wwwroot\assets\cards\h1.png" />
+    <None Include="wwwroot\assets\cards\h10.png" />
+    <None Include="wwwroot\assets\cards\h11.png" />
+    <None Include="wwwroot\assets\cards\h12.png" />
+    <None Include="wwwroot\assets\cards\h13.png" />
+    <None Include="wwwroot\assets\cards\h2.png" />
+    <None Include="wwwroot\assets\cards\h3.png" />
+    <None Include="wwwroot\assets\cards\h4.png" />
+    <None Include="wwwroot\assets\cards\h5.png" />
+    <None Include="wwwroot\assets\cards\h6.png" />
+    <None Include="wwwroot\assets\cards\h7.png" />
+    <None Include="wwwroot\assets\cards\h8.png" />
+    <None Include="wwwroot\assets\cards\h9.png" />
+    <None Include="wwwroot\assets\cards\s1.png" />
+    <None Include="wwwroot\assets\cards\s10.png" />
+    <None Include="wwwroot\assets\cards\s11.png" />
+    <None Include="wwwroot\assets\cards\s12.png" />
+    <None Include="wwwroot\assets\cards\s13.png" />
+    <None Include="wwwroot\assets\cards\s2.png" />
+    <None Include="wwwroot\assets\cards\s3.png" />
+    <None Include="wwwroot\assets\cards\s4.png" />
+    <None Include="wwwroot\assets\cards\s5.png" />
+    <None Include="wwwroot\assets\cards\s6.png" />
+    <None Include="wwwroot\assets\cards\s7.png" />
+    <None Include="wwwroot\assets\cards\s8.png" />
+    <None Include="wwwroot\assets\cards\s9.png" />
+    <None Include="wwwroot\assets\texas_holdem_layout.png" />
   </ItemGroup>
 
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">

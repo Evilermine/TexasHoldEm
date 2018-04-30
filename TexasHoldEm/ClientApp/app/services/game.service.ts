@@ -1,6 +1,6 @@
-﻿import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
+﻿import { HttpClient, HttpResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable, Inject } from '@angular/core';
-import { PlayerService } from './PlayerService.service';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class GameService {
@@ -8,30 +8,34 @@ export class GameService {
     public pot: number = 0;
     private playerTurn: number;
     private playerNumber: number;
+    public cards: string[];
 
 
-    constructor(private http: HttpClient, private playerService: PlayerService) {
+    constructor(private http: HttpClient, private authService: AuthService) {
         this.baseUrl = '/api/';
     }
 
     async onAction(bid: number) {
-        console.log("onBid()");
 
         var data = {
             action: bid,
-            user: "EvilErmine"
+            user: this.authService.getCurrentUser().username
         };
 
-        await this.http.post(this.baseUrl + 'onAction/', data)
+        console.log(data);
+
+        await this.http.post(this.baseUrl + 'action/', data)
             .subscribe(data => {
             }, error => ("Incorrect value or not enough funds"));
 
-        await this.http.post<number>(this.baseUrl + 'BidPlayer/', data)
-            .subscribe(data => {
-                bid = data;
-            }, error => ("incorrect value or not enough funds"));
+        if (bid > 0) {
+            await this.http.post<number>(this.baseUrl + 'BidPlayer/', data)
+                .subscribe(data => {
+                    bid = data;
+                }, error => ("incorrect value or not enough funds"));
 
-        this.pot += bid;
+            this.pot += bid;
+        }
     }
 
     async getPot() {
@@ -60,8 +64,17 @@ export class GameService {
         return false;
     }
 
-    getCards(): string[] {
-        this.playerService.setCards();
-        return this.playerService.getCards();
+     setCards(){
+        var user = {
+            username: "EvilErmine"
+        };
+
+        var headers = new HttpHeaders();
+        headers.append('Content-Type', 'application/json; charset=utf-8');
+
+        let params = new HttpParams().set("username", "EvilErmine");
+
+        return this.http.get<string[]>(this.baseUrl + 'GetCard/EvilErmine', { headers: headers, params: params })
+            .subscribe(p => this.cards = p);
     }
 }

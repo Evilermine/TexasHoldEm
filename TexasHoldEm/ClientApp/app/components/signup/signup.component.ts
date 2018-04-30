@@ -1,26 +1,25 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import 'rxjs/add/operator/catch';
 import { Observable } from 'rxjs/Observable';
-import { PlayerService, Player } from '../../services/PlayerService.service';
+import { Player } from '../../services/player.service';
+import { AuthService } from '../../services/auth.service';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import * as crypto from 'crypto-js';
 
 @Component({
     selector: 'sign-up',
     templateUrl: './signup.component.html',
-    providers: [PlayerService]
 })
 
 export class SignupComponent implements OnInit {
     public playerList: Observable<Player[]>;
-    showEditButton: true;
     myName: string;
     player: Player;
     title: string;
 
     form: FormGroup
 
-    constructor(private playerService: PlayerService, private formBuilder: FormBuilder) {
+    constructor(private authService: AuthService, private formBuilder: FormBuilder) {
         this.player = new Player();
         this.title = "Sign up";
     }
@@ -34,13 +33,11 @@ export class SignupComponent implements OnInit {
             lastname: [null, Validators.required],
             email: [null, [Validators.required, Validators.email]]
         });
-        this.playerList = this.playerService.PlayerList;
-        this.playerService.FetchAllPlayers();
     }
 
     public AddPlayer(item: Player) {
        
-      // item.password = crypto.enc.Base64.stringify(crypto.SHA512(item.password));
-       let todoId = this.playerService.AddPlayer(item);
+        // item.password = crypto.enc.Base64.stringify(crypto.SHA512(item.password));
+        let todoId = this.authService.AddPlayer(item);
     }
 }

@@ -1,0 +1,27 @@
+﻿.bg-red {
+    background-color: rgba(134, 2, 2, 0.92);
+}
+
+.btn {
+    background-color: #a90000;
+    
+}
+
+.btn:hover{
+    background-color: #cf1515
+}
+
+
+#bid {
+    height: 40px;
+    width: 100px;
+    border-radius: 5px;
+}
+
+.btn-bid{
+    height: 40px;
+}
+
+.nav-item{
+    padding: 5px;
+}

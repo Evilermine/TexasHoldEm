@@ -1,40 +1,49 @@
-<nav class='navbar-expand-md navbar-inverse'>
-    <div class='container-fluid'>
-        <div>
-            <button type='button' class='navbar-toggle collapsed' data-toggle='collapse' data-target='.navbar-collapse'>
-                <span class='sr-only'>Toggle navigation</span>
-                <span class='icon-bar'></span>
-                <span class='icon-bar'></span>
-                <span class='icon-bar'></span>
-            </button>
-            <a class="navbar-brand" [routerLink]="['/home']">Texas Hold'em</a>
-        </div>
+<nav class='navbar bg-red navbar-expand-sm navbar-light'>
+    <a class="navbar-brand" [routerLink]="['/home']">Texas Hold'em</a>
 
-        <div class='navbar-collapse collapse'>
-            <ul class='nav navbar-nav'>
-                <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/home']">
-                        <span class='glyphicon glyphicon-home'></span> Home
-                    </a>
-                </li>
-                <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/stats']">
-                        <span class='glyphicon glyphicon-stats'></span> Stats
-                    </a>
+        <ul class="navbar-nav">
+            <li class="nav-item" [routerLinkActive]="['link-active']">
+                <a class="nav-link" [routerLink]="['/home']">
+                    <span class='glyphicon glyphicon-home'></span> Home
+                </a>
+            </li>
+            <li class="nav-item" [routerLinkActive]="['link-active']">
+                <a class="nav-link" [routerLink]="['/stats']">
+                    <span class='glyphicon glyphicon-stats'></span> Stats
+                </a>
+            </li>
+           </ul>
+
+        <ul *ngIf="!this.logged;else logout" class="navbar-nav justify-content-end">
+            <li class="nav-item" [routerLinkActive]="['link-active']">
+                <a class="nav-link" [routerLink]="['/register']">
+                    <span class="glyphicon glyphicon-user"></span> Sign up
+                </a>
+            </li>
+            <li class="nav-item" [routerLinkActive]="['link-active']">
+                <a class="nav-link" [routerLink]="['/signin']">
+                    <span class="glyphicon glyphicon-log-in"></span> Sign in
+                </a>
+            </li>
+        </ul>
+        <ng-template #logout>
+            <ul class="navbar-nav justify-content-end">
+                <li class="nav-item">
+
+                    <div class="dropdown">
+                        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
+                            {{authService.currentUser.username}}
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item">My Profile</a>
+                            <a class="dropdown-item">Account settings</a>
+                            <button class="dropdown-item" (click)="disconnect()">
+                                    logout
+                            </button>
+                        </div>
+                    </div>
+
                 </li>
             </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/register']">
-                        <span class="glyphicon glyphicon-user"></span> Sign up
-                    </a>
-                </li>
-                <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/signin']">
-                        <span class="glyphicon glyphicon-log-in"></span> Sign in
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
+        </ng-template>
 </nav>

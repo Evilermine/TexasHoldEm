@@ -210,7 +210,7 @@ namespace TexasHoldEm.Services
             char color;
 
             if (c.value == Card.Value.ACE)
-                value = "14".ToArray();
+                value = "1".ToArray();
             else
                 value = ((int)c.value + 2).ToString().ToArray();
 

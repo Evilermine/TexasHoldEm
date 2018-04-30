@@ -1,17 +1,18 @@
-﻿import { Component, OnInit, Inject } from '@angular/core';
-import { Router } from '@angular/router';
+﻿import { Component, OnInit, Inject, DoCheck } from '@angular/core';
+import { Router, Route, RouterLink } from '@angular/router';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
     selector: 'sign-up',
     templateUrl: './signin.component.html',
-    providers: [AuthService]
 })
-export class SignInComponent implements OnInit {
+export class SignInComponent implements OnInit, DoCheck {
     private form: FormGroup;
-    private username: string;
-    private password: string;
+    private credentials: {
+        username: string,
+        password: string
+    };
 
     title: string;
 
@@ -21,6 +22,7 @@ export class SignInComponent implements OnInit {
                 private formBuilder: FormBuilder,
                 @Inject('BASE_URL') private baseUrl: string) {
         this.title = "Sign in";
+        this.credentials = {username: "", password: ""};
     }
 
     ngOnInit() {
@@ -30,9 +32,11 @@ export class SignInComponent implements OnInit {
         });
     }
 
+    ngDoCheck() {
+    }
+
     onSubmit() {
-        console.log(this.username);
-        this.authService.login(this.username, this.password);
+        this.authService.login(this.credentials);
     }
 }
 

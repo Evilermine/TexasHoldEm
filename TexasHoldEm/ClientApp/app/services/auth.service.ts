@@ -1,63 +1,51 @@
-﻿import { EventEmitter, Inject, Injectable, PLATFORM_ID } from "@angular/core";
-import { isPlatformBrowser } from '@angular/common';
-import { Response, Headers, Http } from '@angular/http';
-
+﻿import { EventEmitter, Injectable} from "@angular/core";
+import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from "rxjs";
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Player } from './PlayerService.service'
+import { Player } from './player.service'
 import * as crypto from 'crypto-js';
 import 'rxjs/Rx';
 
 @Injectable()
 export class AuthService {
-    IsLoggedIn: boolean
-    public currentUser: Observable<Player>;
+    public IsLoggedIn: boolean
     private _currentUser: BehaviorSubject<Player>;
-    private datastore: {
-        currentUser: Player;
-    };
-    public user: any;
+    public currentUser: Player;
+    private baseUrl: string;
 
-    constructor(private http: HttpClient,
-        @Inject(PLATFORM_ID) private platformId: any) {
+    constructor(private http: HttpClient, private router: Router)
+    {
         this.IsLoggedIn = false;
-        this.datastore = { currentUser: new Player() };
         this._currentUser = <BehaviorSubject<Player>>new BehaviorSubject(new Player());
-        this.currentUser = this._currentUser.asObservable();
-        this.user = "asdfasdfasdf";
+        this.baseUrl = '/api/';
     }
 
-    async login(username: string, password: string){
 
-        var url = '/api/login';
-       // password = crypto.enc.Base64.stringify(crypto.SHA512(password));
+    public AddPlayer(player: Player) {
+        console.log("Adding new Player to database");
+        var headers = new HttpHeaders();
 
-        var data = {
-            username: username,
-            password: password
-        };
+        headers.append('Content-Type', 'application/json; charset=utf-8');
+        console.log("adding: " + player);
+
+        this.http.post(this.baseUrl + 'InsertPlayer/', player, { headers: headers })
+            .subscribe((data: Player) => {
+            }, error => console.log("could not create todo"));
+    }
+
+    login(credentials: any) {
 
         var headers = new HttpHeaders();
         headers.append('Content-Type', 'application/json; charset=utf-8');
 
-        let current: any;
-
-        let response = await this.http.post<Player>(url, data, { headers: headers })
+        let response = this.http.post<Player>(this.baseUrl + 'login', credentials, { headers: headers })
             .subscribe(p => {
-                this.datastore.currentUser = p;
-                this._currentUser.next(Object.assign({}, this.datastore).currentUser);
-                console.log("test*:" + this.datastore.currentUser.username);
-            }, error => console.log("wrong username or password"));
-
-        console.log("Current user: " + this._currentUser.getValue().email);
-                // if the token is there, login has been successful
-                if (this.currentUser != null) {
-                    // store username and jwt token
-                    this.IsLoggedIn = true;
-                    // successful login
+                this.router.navigate(['/home']);
+                this.IsLoggedIn = true;
+                this.currentUser = p;            
                 
-                }
+            }, error => console.log("wrong username or password"));
     }
 
     logout() {
@@ -69,7 +57,7 @@ export class AuthService {
     }   
 
     getCurrentUser(): Player {
-        return this._currentUser.getValue();
+        return this.currentUser;
     }
 
     onBid(data: any) {
@@ -80,8 +68,7 @@ export class AuthService {
 
         this.http.put<number>("api/EditPlayer", data, { headers: headers })
             .subscribe(data => {
-                this.datastore.currentUser.wallet = data;
-                this._currentUser.next(Object.assign({}, this.datastore).currentUser);
+                this.currentUser.wallet = data;
             });
     }
 }

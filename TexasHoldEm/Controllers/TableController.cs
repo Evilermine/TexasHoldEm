@@ -23,19 +23,21 @@ namespace TexasHoldEm.Controllers
 
         [HttpGet("{username}")]
         [Route("~/api/GetCard/{username}")]
-        public IActionResult GetCard([FromRoute(Name ="username")] string username)
+        public IActionResult GetCard([FromRoute(Name = "username")] string username)
         {
             table = new Table(username);
-                String[] cards = new String[2];
-                table.DistributeToPlayer(2);
-                cards = table.GetCardsByPlayer(username);
-                return Ok(cards);
+            String[] cards = new String[2];
+            table.DistributeToPlayer(2);
+            cards = table.GetCardsByPlayer(username);
+            return Ok(cards);
         }
 
         [HttpPost]
         [Route("~/api/action")]
         public IActionResult onAction([FromBody] ActionViewModel action)
         {
+            table = new Table(action.user);
+
             if(action.action > 0)
             {
                 table.onBid(action.action);

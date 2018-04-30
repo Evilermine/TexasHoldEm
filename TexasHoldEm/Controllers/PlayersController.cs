@@ -178,6 +178,10 @@ namespace TexasHoldEm.Controllers
                 return new NotFoundObjectResult(action.user);
 
             Players player = _context.Players.SingleOrDefault(m => m.Username == action.user);
+
+            //if (player.Wallet < action.action)
+            //    return new BadRequestResult();
+
             player.Wallet = player.Wallet - action.action;
 
             _context.Attach(player);

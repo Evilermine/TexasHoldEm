@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+import 'popper.js';
 import 'zone.js';
 import 'rxjs/add/operator/first';
 import { APP_BASE_HREF } from '@angular/common';
