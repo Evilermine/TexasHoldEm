@@ -1,6 +1,7 @@
 ﻿import { HttpClient, HttpResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable, Inject } from '@angular/core';
 import { AuthService } from './auth.service';
+import { Player } from './player.service';
 
 @Injectable()
 export class GameService {
@@ -29,13 +30,17 @@ export class GameService {
             }, error => ("Incorrect value or not enough funds"));
 
         if (bid > 0) {
-            await this.http.post<number>(this.baseUrl + 'BidPlayer/', data)
+            await this.http.post<Player>(this.baseUrl + 'BidPlayer/', data)
                 .subscribe(data => {
-                    bid = data;
+                    this.authService.currentUser = data;
                 }, error => ("incorrect value or not enough funds"));
 
             this.pot += bid;
         }
+    }
+
+    async getRiver() {
+
     }
 
     async getPot() {
@@ -45,7 +50,7 @@ export class GameService {
             .subscribe(data => {
                 pot = data;
             });
-
+ 
         return pot;
     }
 

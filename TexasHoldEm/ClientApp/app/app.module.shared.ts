@@ -33,12 +33,12 @@ import { GameComponent } from './components/game/game.component';
         FormsModule,
         ReactiveFormsModule,
         RouterModule.forRoot([
-            { path: '', redirectTo: '/home', pathMatch: 'full' },
+            { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component: HomeComponent },
             { path: 'stats', component: StatsComponent },
             { path: 'register', component: SignupComponent },
             { path: 'signin', component: SignInComponent },
-            { path: '**', redirectTo: '/home' }
+            { path: '**', redirectTo: 'home' }
         ])
     ],
     providers: [

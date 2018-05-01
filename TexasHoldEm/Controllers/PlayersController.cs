@@ -179,8 +179,8 @@ namespace TexasHoldEm.Controllers
 
             Players player = _context.Players.SingleOrDefault(m => m.Username == action.user);
 
-            //if (player.Wallet < action.action)
-            //    return new BadRequestResult();
+            if (player.Wallet < action.action)
+                return new BadRequestResult();
 
             player.Wallet = player.Wallet - action.action;
 
@@ -188,7 +188,7 @@ namespace TexasHoldEm.Controllers
             _context.Entry(player).Property(p => p.Wallet);
             _context.SaveChangesAsync();
 
-            return new OkResult();
+            return Ok(player);
         }
     }
 }
